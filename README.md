@@ -4,14 +4,18 @@
  ##### <p align="center"> SIGGRAPH 2024 (Conference Track)
  ##### <p align="center"> *equal contribution
  
-#### <p align="center">[ArXiv](https://arxiv.org/abs/2404.15121) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=rUAez9tytAA)</p>
+#### <p align="center">[ArXiv](https://arxiv.org/abs/2404.15121) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=rUAez9tytAA) | [Unity demo](https://drive.google.com/file/d/13BEstYw6gLBRshpDorPO0DQPPeuAlDrB/view?usp=drive_link)</p>
 
 <p align="center">
   <img width="40%" src="assets/camdm.png"/>
 </p>
 
+# Update log
+- (2024.04.24) 
+  - Release the windows Unity demo (GPU) trained in 100style dataset.
+
 ## Todo
-- [ ] Release unity .exe demo in windows. (comming few days)
+- [×] Release unity .exe demo in windows. （2024.04.24)
 - [ ] Release the training code in pytorch and inference code in unity.
 
 ## BibTex
