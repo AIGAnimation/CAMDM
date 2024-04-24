@@ -4,7 +4,7 @@
  ##### <p align="center"> SIGGRAPH 2024 (Conference Track)
  ##### <p align="center"> *equal contribution
  
-#### <p align="center">| [ArXiv](.) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=rUAez9tytAA)</p>
+#### <p align="center">[ArXiv](https://arxiv.org/abs/2404.15121) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=rUAez9tytAA)</p>
 
 <p align="center">
   <img width="40%" src="assets/camdm.png"/>
