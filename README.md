@@ -13,3 +13,15 @@
 ## Todo
 - [ ] Release unity .exe demo in windows. (comming few days)
 - [ ] Release the training code in pytorch and inference code in unity.
+
+## BibTex
+```
+@InProceedings{chen2024taming,
+        title={Taming Diffusion Probabilistic Models for Character Control},
+        author={Rui Chen and Mingyi Shi and Shaoli Huang and Ping Tan and Taku Komura and Xuelin Chen},
+        year={2024},
+        eprint={2404.15121},
+        archivePrefix={arXiv},
+        primaryClass={cs.GR}
+    }
+```
