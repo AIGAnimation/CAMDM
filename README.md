@@ -15,7 +15,7 @@
   - Release the windows Unity demo (GPU) trained in 100style dataset.
 
 ## Todo
-- [×] Release unity .exe demo in windows. （2024.04.24)
+- [x] Release unity .exe demo in windows. （2024.04.24)
 - [ ] Release the training code in pytorch and inference code in unity.
 
 ## BibTex
