@@ -77,6 +77,10 @@ python export_onnx.py --checkpoint CHECKPOINT_PATH
 - [ ] Release the inference code in unity. （will release before 06.26）
 - [ ] Release the evaluation code in paper. （will release before 06.30）
 
+## Acknowledgement
+- [MDM](https://github.com/GuyTevet/motion-diffusion-model)
+- [PFNN](https://github.com/sebastianstarke/AI4Animation)
+
 ## BibTex
 ```
 @inproceedings{camdm,
