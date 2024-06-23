@@ -22,6 +22,6 @@
         "lr": 0.0005,
         "batch_size": 512,
         "cond_mask_prob": 0.15,
-        "loss_terms": "1110"
+        "loss_terms": "1111"
     }
 }
