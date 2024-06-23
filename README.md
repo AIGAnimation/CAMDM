@@ -59,7 +59,7 @@ To train the network with the default settings, use the following command:
 python train.py --cluster -n gen_step4 --epoch 500 --batch_size 512 --diffusion_steps 4  # The checkpoint of approximately the 50th epoch can be exported
 ```
 
-We offer various options for network training. For a detailed explanation, please refer to our [option.py](config/option.py) and [default.json](config/default.json) files. For instance, the `--cluster` option facilitates training in a cluster environment by allowing the training to resume automatically if it is interrupted.
+We offer various options for network training. For a detailed explanation, please refer to our [option.py](training_code/config/option.py) and [default.json](training_code/config/default.json) files. For instance, the `--cluster` option facilitates training in a cluster environment by allowing the training to resume automatically if it is interrupted.
 
 ### ONNX Export
 
