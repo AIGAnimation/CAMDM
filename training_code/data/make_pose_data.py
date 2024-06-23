@@ -28,7 +28,7 @@ def mirror_text(statement):
     return statement
 
 
-def extract_traj(root_positions, forwards, smooth_kernel=[5, 10, 15, 20]):
+def extract_traj(root_positions, forwards, smooth_kernel=[5, 10]):
     traj_trans, traj_angles, traj_poses = [], [], []
     FORWARD_AXIS = np.array([[0, 0, 1]]) # OpenGL system
     
