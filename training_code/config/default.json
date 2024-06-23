@@ -1,0 +1,27 @@
+{
+    "arch": {
+        "rot_req": "6d",
+        "decoder": "trans_enc",
+        "latent_dim": 256,
+        "ff_size": 1024,
+        "num_heads": 4,
+        "num_layers": 4,
+        "offset_frame": 1,
+        "past_frame": 10,
+        "future_frame": 45,
+        "local_cond": "traj",
+        "global_cond": "text"
+    },
+    "diff": {
+        "noise_schedule": "cosine",
+        "diffusion_steps": 4,
+        "sigma_small": true
+    },
+    "trainer": {
+        "epoch": 500,
+        "lr": 0.0005,
+        "batch_size": 512,
+        "cond_mask_prob": 0.15,
+        "loss_terms": "1110"
+    }
+}

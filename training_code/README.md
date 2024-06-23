@@ -1,21 +1,3 @@
- # <p align="center"> Taming Diffusion Probabilistic Models for Character Control </p>
-
- #####  <p align="center"> [Rui Chen*](https://aruichen.github.io/), [Mingyi Shi*](https://rubbly.cn/), [Shaoli Huang](https://scholar.google.com/citations?user=o31BPFsAAAAJ&hl=en), [Ping Tan](https://ece.hkust.edu.hk/pingtan), [Taku Komura](https://scholar.google.com.hk/citations?user=TApLOhkAAAAJ&hl=en), [Xuelin Chen](https://xuelin-chen.github.io/)</p>
- ##### <p align="center"> SIGGRAPH 2024
- ##### <p align="center"> *equal contribution
- 
-#### <p align="center">[ArXiv](https://arxiv.org/abs/2404.15121) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=J9L0fR_x5OA) | [Unity demo](https://drive.google.com/file/d/1NYXP-fbEegErfaIgtHXvvrrfLXUSqYXg/view?usp=sharing)</p>
-
-<p align="center">
-  <img width="40%" src="assets/camdm.png"/>
-</p>
-
-# Update log
-- (2024.04.24) 
-  - Release the windows Unity demo (GPU) trained in 100style dataset.
-- (2024.06.23) 
-  - Release the training code in pytorch.
-
 ## Getting Started
 
 This code has been tested on `Ubuntu 20.04.6 LTS` and requires the following:
@@ -68,13 +50,7 @@ After training, you can select the best checkpoint and export it as an ONNX file
 ```shell
 # Replace 'CHECKPOINT_PATH' with the path to your actual checkpoint file
 python export_onnx.py --checkpoint CHECKPOINT_PATH
-
 ```
-## Todo
-- [x] Release unity .exe demo in windows. （2024.04.24）
-- [x] Release the training code in pytorch. （2024.06.23）
-- [ ] Release the inference code in unity. （will release before 06.26）
-- [ ] Release the evaluation code in paper. （will release before 06.30）
 
 ## BibTex
 ```
