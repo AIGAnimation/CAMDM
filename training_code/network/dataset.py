@@ -78,6 +78,7 @@ class MotionDataset(Dataset):
 
         traj_pos = root_pos[:, [0, 2]].copy()
         random_option = np.random.random()
+        # Random filtering trajectory. Relieve the out-of-distribution(OOD) problem during runtime
         if random_option <0.5:
             pass
         elif random_option < 0.75:
