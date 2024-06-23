@@ -23,7 +23,7 @@ This code has been tested on `Ubuntu 20.04.6 LTS` and requires the following:
 * Python 3.8 and PyTorch 1.13.1 (for exporting Unity-compatible ONNX models)
 * Anaconda (conda3) or Miniconda3
 * A CUDA-capable GPU (a single GPU is sufficient)
-
+* It takes about 14 hours to get the best performance of the netwoek in a single 3090 GPU.
 ### 1. Environment Setup
 
 Create and activate the conda environment using the provided `environment.yml` file:
@@ -56,7 +56,7 @@ python data/make_pose_data.py
 To train the network with the default settings, use the following command:
 
 ```shell
-python train.py -n camdm
+python train.py --cluster -n gen_step4 --epoch 500 --batch_size 512 --diffusion_steps 4  # The checkpoint of approximately the 50th epoch can be exported
 ```
 
 We offer various options for network training. For a detailed explanation, please refer to our [option.py](config/option.py) and [default.json](config/default.json) files. For instance, the `--cluster` option facilitates training in a cluster environment by allowing the training to resume automatically if it is interrupted.
@@ -70,6 +70,7 @@ After training, you can select the best checkpoint and export it as an ONNX file
 python export_onnx.py --checkpoint CHECKPOINT_PATH
 
 ```
+
 ## Todo
 - [x] Release unity .exe demo in windows. （2024.04.24）
 - [x] Release the training code in pytorch. （2024.06.23）

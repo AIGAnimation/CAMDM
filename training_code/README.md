@@ -5,7 +5,7 @@ This code has been tested on `Ubuntu 20.04.6 LTS` and requires the following:
 * Python 3.8 and PyTorch 1.13.1 (for exporting Unity-compatible ONNX models)
 * Anaconda (conda3) or Miniconda3
 * A CUDA-capable GPU (a single GPU is sufficient)
-* It takes about 14 hours to train the model in a single 3090 GPU.
+* It takes about 14 hours to get the best performance of the netwoek in a single 3090 GPU.
 ### 1. Environment Setup
 
 Create and activate the conda environment using the provided `environment.yml` file:
