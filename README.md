@@ -27,13 +27,13 @@
 ## Update log
 
 - (2024.04.24)
-  - Release the windows Unity demo (GPU) trained in 100style dataset.
+  - Release the Windows Unity demo (GPU) trained in 100STYLE dataset.
 - (2024.06.23)
-  - Release the training code in pytorch.
+  - Release the training code in PyTorch.
 
 ## Getting Started
 
-Our project is developed with Unity, and features a real-time character control demo that generate high-quality and diversity character animations, responding in real-time to user-supplied control signals. With our character controller, you can control your character to move with any arbitray style you want, all achieved through a single unified model.
+Our project is developed with Unity, and features a real-time character control demo that generates high-quality and diverse character animations, responding in real-time to user-supplied control signals. With our character controller, you can control your character to move with any arbitrary style you want, all achieved through a single unified model.
 
 A well-designed diffusion model is powering behind the demo, and it can be run efficiently on consumer-level GPUs or Apple Silicon MacBooks. For more information, please visit our project's [homepage](https://aiganimation.github.io/CAMDM/) or the [releases page](https://github.com/AIGAnimation/CAMDM/releases) to download the runnable program.
 
@@ -53,7 +53,7 @@ L:     Previous style
 
 ## Train from Scratch
 
-Our project contains two main modules: network training part with [PyTorch](https://github.com/AIGAnimation/CAMDM/PyTorch/), and demo with [Unity](https://github.com/AIGAnimation/CAMDM/Unity/). Both modules are open-sourced and can be accessed in this repository.
+Our project contains two main modules: Network training part with [PyTorch](https://github.com/AIGAnimation/CAMDM/tree/main/PyTorch), and demo with [Unity](https://github.com/AIGAnimation/CAMDM/tree/main/Unity). Both modules are open-sourced and can be accessed in this repository.
 
 ### Character and Motion Preparation
 
@@ -61,21 +61,21 @@ To train a character animation system, you first need a rigged character and its
 
 For customized character and motion data, please wait for our further documentation to explain the retargeting and rigging process.
 
-### Diffusion Network Training [[PyTorch]](https://github.com/AIGAnimation/CAMDM/PyTorch/) 
+### Diffusion Network Training [[PyTorch]](https://github.com/AIGAnimation/CAMDM/tree/main/PyTorch) 
 
-All the training code and documents can be found in the subfolder of our repository.
+All the training codes and documents can be found in the subfolder of our repository.
 
-A practical training session using the entire 100STYLE dataset will take approximately one day, although acceptable checkpoints can usually be obtained after just a few hours (more than 4 hours). Following the completion of the network training, it's necessary to convert the saved checkpoints into the ONNX format. This allows them to be imported into Unity for use as a learning module. For more detals, please check the subfolder.
+A practical training session using the entire 100STYLE dataset will take approximately one day, although acceptable checkpoints can usually be obtained after just a few hours (more than 4 hours). Following the completion of the network training, it's necessary to convert the saved checkpoints into the ONNX format. This allows them to be imported into Unity for use as a learning module. For more details, please check the subfolder.
 
-### Unity Inference [[Unity]](https://github.com/AIGAnimation/CAMDM/PyTorch/) 
+### Unity Inference [[Unity]](https://github.com/AIGAnimation/CAMDM/tree/main/Unity) 
 TBA.
 
 ## ToDo-List
 
-- [X] Release unity .exe demo in windows. （2024.04.24）
-- [X] Release the training code in pytorch. （2024.06.23）
-- [ ] Release the inference code in unity. （will release before 06.26）
-- [ ] Release the evaluation code in paper. （will release before 06.30）
+- [X] Release Unity .exe demo. （2024.04.24）
+- [X] Release the training code in PyTorch. （2024.06.23）
+- [ ] Release the inference code in Unity. （will release before 06.26）
+- [ ] Release the evaluation code. （will release before 06.30）
 - [ ] Release the inference code to support any character control. (TBA)
 
 ## Acknowledgement
