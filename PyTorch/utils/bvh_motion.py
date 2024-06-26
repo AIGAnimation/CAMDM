@@ -1,3 +1,11 @@
+"""
+This script is written to handle the motion data in BVH format, including loading, saving, and processing.
+It can work with motion_module.py to operate the motion class in different ways.
+Please contact the mailto:mingyis@connect.hku.hk if you meet any issues.
+Author: Mingyi Shi
+Date: 06/01/2024
+"""
+
 import re
 import os
 import copy

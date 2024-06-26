@@ -1,87 +1,92 @@
- # <p align="center"> Taming Diffusion Probabilistic Models for Character Control </p>
+# `<p align="center">` Taming Diffusion Probabilistic Models for Character Control `</p>`
 
- #####  <p align="center"> [Rui Chen*](https://aruichen.github.io/), [Mingyi Shi*](https://rubbly.cn/), [Shaoli Huang](https://scholar.google.com/citations?user=o31BPFsAAAAJ&hl=en), [Ping Tan](https://ece.hkust.edu.hk/pingtan), [Taku Komura](https://scholar.google.com.hk/citations?user=TApLOhkAAAAJ&hl=en), [Xuelin Chen](https://xuelin-chen.github.io/)</p>
- ##### <p align="center"> SIGGRAPH 2024
- ##### <p align="center"> *equal contribution
- 
-#### <p align="center">[ArXiv](https://arxiv.org/abs/2404.15121) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=J9L0fR_x5OA) | [Unity demo](https://drive.google.com/file/d/1NYXP-fbEegErfaIgtHXvvrrfLXUSqYXg/view?usp=sharing)</p>
+##### `<p align="center">` [Rui Chen*](https://aruichen.github.io/), [Mingyi Shi*](https://rubbly.cn/), [Shaoli Huang](https://scholar.google.com/citations?user=o31BPFsAAAAJ&hl=en), [Ping Tan](https://ece.hkust.edu.hk/pingtan), [Taku Komura](https://scholar.google.com.hk/citations?user=TApLOhkAAAAJ&hl=en), [Xuelin Chen](https://xuelin-chen.github.io/) `</p>`
+
+##### `<p align="center">` SIGGRAPH 2024
+
+##### `<p align="center">` *equal contribution
+
+<!-- #### <p align="center">[ArXiv](https://arxiv.org/abs/2404.15121) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=J9L0fR_x5OA) | [Unity demo](https://drive.google.com/file/d/1NYXP-fbEegErfaIgtHXvvrrfLXUSqYXg/view?usp=sharing)</p> -->
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="https://github.com/AIGAnimation/CAMDM/assets/7709951/0f2e9940-9920-4e49-8ae3-ce2b6c9c1726" style="width: 40%; margin: 0 10px;" alt="Image 1">
+    <img src="https://github.com/AIGAnimation/CAMDM/assets/7709951/645d9882-8d13-48f4-9d54-be06acbf8c3a" style="width: 60%; margin: 0 10px;" alt="Image 2">
+</div>
 
 <p align="center">
-  <img width="40%" src="assets/camdm.png"/>
-</p>
+  <br>
+    <a href="https://arxiv.org/abs/2404.15121">
+      <img src='https://img.shields.io/badge/Paper-PDF-green?style=for-the-badge&logo=adobeacrobatreader&logoWidth=20&logoColor=white&labelColor=66cc00&color=94DD15' alt='Paper PDF'>
+    </a>
+    <a href='https://aiganimation.github.io/CAMDM/'>
+      <img src='https://img.shields.io/badge/CAMDM-Page-orange?style=for-the-badge&logo=Google%20chrome&logoColor=white&labelColor=D35400' alt='Project Page'></a>
+    <a href='https://aiganimation.github.io/CAMDM/'>
+      <img src='https://img.shields.io/badge/Unity-EXE-57b9d3.svg?style=for-the-badge&logo=unity' alt='Unity'></a>
+    <a href="https://youtu.be/J9L0fR_x5OA"><img alt="youtube views" title="Subscribe to my YouTube channel" src="https://img.shields.io/youtube/views/J9L0fR_x5OA?logo=youtube&labelColor=ce4630&style=for-the-badge"/></a>
+  </p>
 
-# Update log
-- (2024.04.24) 
+## Update log
+
+- (2024.04.24)
   - Release the windows Unity demo (GPU) trained in 100style dataset.
-- (2024.06.23) 
+- (2024.06.23)
   - Release the training code in pytorch.
 
 ## Getting Started
 
-This code has been tested on `Ubuntu 20.04.6 LTS` and requires the following:
+Our project is developed with Unity, and features a real-time character control demo that generate high-quality and diversity character animations, responding in real-time to user-supplied control signals. With our character controller, you can control your character to move with any arbitray style you want, all achieved through a single unified model.
 
-* Python 3.8 and PyTorch 1.13.1 (for exporting Unity-compatible ONNX models)
-* Anaconda (conda3) or Miniconda3
-* A CUDA-capable GPU (a single GPU is sufficient)
-* It takes about 14 hours to get the best performance of the netwoek in a single 3090 GPU.
-### 1. Environment Setup
+A well-designed diffusion model is powering behind the demo, and it can be run efficiently on consumer-level GPUs or Apple Silicon MacBooks. For more information, please visit our project's [homepage](!https://aiganimation.github.io/CAMDM/) or the [releases page](!https://github.com/AIGAnimation/CAMDM/releases) to download the runnable program.
 
-Create and activate the conda environment using the provided `environment.yml` file:
-```shell
-git clone https://github.com/AIGAnimation/CAMDM.git
-cd CAMDM/training_code
-conda env create -f environment.yml
-conda activate cdmdm
-```
-
-### 2. Data Preparation
-
-Download the retargeted 100style dataset using this [OneDrive link](https://1drv.ms/u/s!AtagzSrg3_hppOVH-uNQCPXgwKN9Rg?e=wQH2aT), and then move it into the `data` folder of this project:
-
-```shell
-mv 100STYLE_mixamo.zip ./data
-mkdir -p data/pkls
-unzip data/100STYLE_mixamo.zip -d ./data/100STYLE_mixamo
-```
-
-To expedite training, we have omitted certain joints from the original Mixamo skeleton, such as those of the fingers, which are also not present in the original 100style dataset. Subsequently, we package the data into a `.pkl` file:
-
-```shell
-python data/process_bvh.py
-python data/make_pose_data.py
-```
-
-### Network Training
-
-To train the network with the default settings, use the following command:
-
-```shell
-python train.py --cluster -n gen_step4 --epoch 500 --batch_size 512 --diffusion_steps 4  # The checkpoint of approximately the 50th epoch can be exported
-```
-
-We offer various options for network training. For a detailed explanation, please refer to our [option.py](training_code/config/option.py) and [default.json](training_code/config/default.json) files. For instance, the `--cluster` option facilitates training in a cluster environment by allowing the training to resume automatically if it is interrupted.
-
-### ONNX Export
-
-After training, you can select the best checkpoint and export it as an ONNX file, which can be imported into Unity. The export path will be set to the same directory as the checkpoint:
-
-```shell
-# Replace 'CHECKPOINT_PATH' with the path to your actual checkpoint file
-python export_onnx.py --checkpoint CHECKPOINT_PATH
+### Usage
 
 ```
+WASD:  Move the character and control the character.
+F:     Switch between forward mode and orientation-fixed mode. 
+QE:    Adjust the orientation in orientation-fixed mode.
+J:     Next style
+L:     Previous style
+```
 
-## Todo
-- [x] Release unity .exe demo in windows. （2024.04.24）
-- [x] Release the training code in pytorch. （2024.06.23）
+## Train from Scratch
+
+Our project contains two main modules: network training part with [PyTorch](!https://github.com/AIGAnimation/CAMDM/PyTorch/), and demo with [Unity](!https://github.com/AIGAnimation/CAMDM/Unity/). Both modules are open-sourced and can be accessed in this repository.
+
+### Character and Motion Preparation
+
+To train a character animation system, you first need a rigged character and its corresponding motion data. In our project, we provide an example with Y-Bot from [Mixamo](!https://www.mixamo.com/#/), which uses the standard Mixamo skeleton configuration. We also retargeted the 100STYLE dataset with the Mixamo skeleton. Therefore, you can download any other character from Mixamo and drive it with our trained model.
+
+For customized character and motion data, please wait for our further documentation to explain the retargeting and rigging process.
+
+### Diffusion Network Training [[PyTorch]](!https://github.com/AIGAnimation/CAMDM/PyTorch/) 
+
+All the training code and documents can be found in the subfolder of our repository.
+
+A practical training session using the entire 100STYLE dataset will take approximately one day, although acceptable checkpoints can usually be obtained after just a few hours (more than 4 hours). Following the completion of the network training, it's necessary to convert the saved checkpoints into the ONNX format. This allows them to be imported into Unity for use as a learning module. For more detals, please check the subfolder.
+
+### Unity Inference [[Unity]](!https://github.com/AIGAnimation/CAMDM/PyTorch/) 
+TBA.
+
+## ToDo-List
+
+- [X] Release unity .exe demo in windows. （2024.04.24）
+- [X] Release the training code in pytorch. （2024.06.23）
 - [ ] Release the inference code in unity. （will release before 06.26）
 - [ ] Release the evaluation code in paper. （will release before 06.30）
+- [ ] Release the inference code to support any character control. (TBA)
 
 ## Acknowledgement
+
+This project is inspired by the following works. We appreciate their contributions, and please consider citing them if you find our project helpful.
+
+- [100STYLE](https://www.ianxmason.com/100style/)
+- [AI4Animation](https://github.com/sebastianstarke/AI4Animation) 
+- [Guided-Diffusion](https://github.com/openai/guided-diffusion)
 - [MDM](https://github.com/GuyTevet/motion-diffusion-model)
-- [PFNN](https://github.com/sebastianstarke/AI4Animation)
+
 
 ## BibTex
+
 ```
 @inproceedings{camdm,
   title={Taming Diffusion Probabilistic Models for Character Control},
@@ -90,3 +95,6 @@ python export_onnx.py --checkpoint CHECKPOINT_PATH
   year={2024}
 }
 ```
+
+## Copyright Information
+This project is only for research or education purposes, and not freely available for commercial use or redistribution.

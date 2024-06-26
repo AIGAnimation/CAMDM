@@ -1,3 +1,11 @@
+"""
+This script is written to handle the motion data in BVH format, including loading, saving, and processing.
+It can work with bvh_motion.py to operate the motion class in different ways.
+Please contact the mailto:mingyis@connect.hku.hk if you meet any issues.
+Author: Mingyi Shi
+Date: 06/01/2024
+"""
+
 import sys
 sys.path.append('./')
 
@@ -127,6 +135,30 @@ def extract_forward(motion: Motion, frame_idx, left_shoulder_name, right_shoulde
     return forward_angle
 
 
+'''
+frame_idx: int or list
+'''
+def extract_forward_hips(motion: Motion, frame_idx, left_hip_name, right_hip_name, return_forward=False):
+    if type(frame_idx) is int:
+        frame_idx = [frame_idx]
+    
+    names = list(motion.names)
+    try:
+        l_h_idx, r_h_idx = names.index(left_hip_name), names.index(right_hip_name)
+    except:
+        raise Exception('Cannot find joint names, please check the names of Hips and Shoulders in the bvh file.')
+    global_pos = motion.update_global_positions()
+    
+    lower_across = global_pos[frame_idx, l_h_idx, :] - global_pos[frame_idx, r_h_idx, :]
+    across = lower_across / np.sqrt((lower_across**2).sum(axis=-1))[...,np.newaxis]
+    across = across / np.sqrt((across**2).sum(axis=-1))[...,np.newaxis]
+    forward = np.cross(across, np.array([[0, 1, 0]]))
+    forward_angle = np.arctan2(forward[:, 2], forward[:, 0])
+    if return_forward:
+        return forward_angle, forward
+    return forward_angle
+
+
 def extract_path_forward(motion: Motion, start_frame=0, end_frame=60):
     if motion.frame_num < end_frame:
         end_frame = motion.frame_num - 1
@@ -158,7 +190,7 @@ def rotate(motion: Motion, given_angle=None, axis='y', return_angle=False):
 
 
 if __name__ == '__main__':
-    bvh_path = 'data/raw/multi-subject/test/JL-JR-res-subject10_faceZ.bvh'
+    bvh_path = 'example.bvh'
     motion = Motion.load_bvh(bvh_path)
     
     import os

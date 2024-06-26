@@ -220,12 +220,12 @@ class MotionTrainingPortal(BaseTrainingPortal):
             mask = cond['mask'].view(batch_size, 1, 1, -1)
             
             if self.config.trainer.use_loss_mse:
-                loss_terms['loss_data'] = 5 * self.diffusion.masked_l2(target, model_output, mask) # mean_flat(rot_mse)
+                loss_terms['loss_data'] = self.diffusion.masked_l2(target, model_output, mask) # mean_flat(rot_mse)
                 
             if self.config.trainer.use_loss_vel:
                 model_output_vel = model_output[..., 1:] - model_output[..., :-1]
                 target_vel = target[..., 1:] - target[..., :-1]
-                loss_terms['loss_data_vel'] = 10 * self.diffusion.masked_l2(target_vel[:, :-1], model_output_vel[:, :-1], mask[..., 1:])
+                loss_terms['loss_data_vel'] = self.diffusion.masked_l2(target_vel[:, :-1], model_output_vel[:, :-1], mask[..., 1:])
                   
             if self.config.trainer.use_loss_3d or self.config.use_loss_contact:
                 target_rot, pred_rot, past_rot = target.permute(0, 3, 1, 2), model_output.permute(0, 3, 1, 2), cond['past_motion'].permute(0, 3, 1, 2)
@@ -237,12 +237,12 @@ class MotionTrainingPortal(BaseTrainingPortal):
                 pred_xyz = neural_FK(pred_rot[:, :, :-1], skeletons, pred_root_pos, parents, rotation_type=self.config.arch.rot_req)
                 
                 if self.config.trainer.use_loss_3d:
-                    loss_terms["loss_geo_xyz"] = 1 * self.diffusion.masked_l2(target_xyz.permute(0, 2, 3, 1), pred_xyz.permute(0, 2, 3, 1), mask)
+                    loss_terms["loss_geo_xyz"] = self.diffusion.masked_l2(target_xyz.permute(0, 2, 3, 1), pred_xyz.permute(0, 2, 3, 1), mask)
                 
-                if self.config.trainer.use_loss_vel:
+                if self.config.trainer.use_loss_vel and self.config.trainer.use_loss_3d:
                     target_xyz_vel = target_xyz[:, 1:] - target_xyz[:, :-1]
                     pred_xyz_vel = pred_xyz[:, 1:] - pred_xyz[:, :-1]
-                    loss_terms["loss_geo_xyz_vel"] = 2 * self.diffusion.masked_l2(target_xyz_vel.permute(0, 2, 3, 1), pred_xyz_vel.permute(0, 2, 3, 1), mask[..., 1:])
+                    loss_terms["loss_geo_xyz_vel"] = self.diffusion.masked_l2(target_xyz_vel.permute(0, 2, 3, 1), pred_xyz_vel.permute(0, 2, 3, 1), mask[..., 1:])
                 
                 if self.config.trainer.use_loss_contact:
                     l_foot_idx, r_foot_idx = 24, 19
@@ -262,12 +262,9 @@ class MotionTrainingPortal(BaseTrainingPortal):
             loss_terms["loss"] = loss_terms.get('vb', 0.) + \
                             loss_terms.get('loss_data', 0.) + \
                             loss_terms.get('loss_data_vel', 0.) + \
-                            loss_terms.get('loss_data_diff', 0.) + \
                             loss_terms.get('loss_geo_xyz', 0) + \
                             loss_terms.get('loss_geo_xyz_vel', 0) + \
-                            loss_terms.get('loss_geo_xyz_diff', 0) + \
-                            loss_terms.get('loss_foot_contact', 0) + \
-                            loss_terms.get('loss_foot_contact_velocity', 0)
+                            loss_terms.get('loss_foot_contact', 0)
             
             return model_output.permute(0, 3, 1, 2), loss_terms
         

@@ -10,7 +10,7 @@
         "past_frame": 10,
         "future_frame": 45,
         "local_cond": "traj",
-        "global_cond": "text"
+        "global_cond": "style"
     },
     "diff": {
         "noise_schedule": "cosine",
@@ -18,8 +18,8 @@
         "sigma_small": true
     },
     "trainer": {
-        "epoch": 500,
-        "lr": 0.0005,
+        "epoch": 100,
+        "lr": 0.0001,
         "batch_size": 512,
         "cond_mask_prob": 0.15,
         "loss_terms": "1111"

@@ -57,9 +57,10 @@ def process_motion(motion, use_scale=True):
         motion = motion_modules.scaling(motion, scaling_factor=0.01) # cm -> m
     motion = motion_modules.root(motion)
     motion = motion_modules.on_ground(motion)
-    _, forwards = motion_modules.extract_forward(motion, np.arange(motion.frame_num),
-                                                            style100.left_shoulder_name, style100.right_shoulder_name, 
-                                                            style100.left_hip_name, style100.right_hip_name, return_forward=True)
+    # _, forwards = motion_modules.extract_forward(motion, np.arange(motion.frame_num),
+    #                                                         style100.left_shoulder_name, style100.right_shoulder_name, 
+    #                                                         style100.left_hip_name, style100.right_hip_name, return_forward=True)
+    _, forwards = motion_modules.extract_forward_hips(motion, np.arange(motion.frame_num), style100.left_hip_name, style100.right_hip_name, return_forward=True)
     traj_trans, traj_angles, traj_poses = extract_traj(motion.global_positions[:, 0], forwards, smooth_kernel=[5, 10])
     return motion, {
         'filepath': motion.filepath,
