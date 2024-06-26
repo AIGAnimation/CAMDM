@@ -1,17 +1,16 @@
-# `<p align="center">` Taming Diffusion Probabilistic Models for Character Control `</p>`
+# <p align="center"> Taming Diffusion Probabilistic Models for Character Control </p>
 
-##### `<p align="center">` [Rui Chen*](https://aruichen.github.io/), [Mingyi Shi*](https://rubbly.cn/), [Shaoli Huang](https://scholar.google.com/citations?user=o31BPFsAAAAJ&hl=en), [Ping Tan](https://ece.hkust.edu.hk/pingtan), [Taku Komura](https://scholar.google.com.hk/citations?user=TApLOhkAAAAJ&hl=en), [Xuelin Chen](https://xuelin-chen.github.io/) `</p>`
+##### <p align="center"> [Rui Chen*](https://aruichen.github.io/), [Mingyi Shi*](https://rubbly.cn/), [Shaoli Huang](https://scholar.google.com/citations?user=o31BPFsAAAAJ&hl=en), [Ping Tan](https://ece.hkust.edu.hk/pingtan), [Taku Komura](https://scholar.google.com.hk/citations?user=TApLOhkAAAAJ&hl=en), [Xuelin Chen](https://xuelin-chen.github.io/) </p>
 
-##### `<p align="center">` SIGGRAPH 2024
+##### <p align="center"> SIGGRAPH 2024
 
-##### `<p align="center">` *equal contribution
+##### <p align="center"> *equal contribution
 
 <!-- #### <p align="center">[ArXiv](https://arxiv.org/abs/2404.15121) | [Project Page](https://aiganimation.github.io/CAMDM/) | [Video](https://www.youtube.com/watch?v=J9L0fR_x5OA) | [Unity demo](https://drive.google.com/file/d/1NYXP-fbEegErfaIgtHXvvrrfLXUSqYXg/view?usp=sharing)</p> -->
 
-<div style="display: flex; justify-content: center; align-items: center;">
-    <img src="https://github.com/AIGAnimation/CAMDM/assets/7709951/0f2e9940-9920-4e49-8ae3-ce2b6c9c1726" style="width: 40%; margin: 0 10px;" alt="Image 1">
-    <img src="https://github.com/AIGAnimation/CAMDM/assets/7709951/645d9882-8d13-48f4-9d54-be06acbf8c3a" style="width: 60%; margin: 0 10px;" alt="Image 2">
-</div>
+<p align="center">
+  <img width="40%" src="https://github.com/AIGAnimation/CAMDM/assets/7709951/645d9882-8d13-48f4-9d54-be06acbf8c3a"/>
+</p>
 
 <p align="center">
   <br>
@@ -36,7 +35,11 @@
 
 Our project is developed with Unity, and features a real-time character control demo that generate high-quality and diversity character animations, responding in real-time to user-supplied control signals. With our character controller, you can control your character to move with any arbitray style you want, all achieved through a single unified model.
 
-A well-designed diffusion model is powering behind the demo, and it can be run efficiently on consumer-level GPUs or Apple Silicon MacBooks. For more information, please visit our project's [homepage](!https://aiganimation.github.io/CAMDM/) or the [releases page](!https://github.com/AIGAnimation/CAMDM/releases) to download the runnable program.
+A well-designed diffusion model is powering behind the demo, and it can be run efficiently on consumer-level GPUs or Apple Silicon MacBooks. For more information, please visit our project's [homepage](https://aiganimation.github.io/CAMDM/) or the [releases page](https://github.com/AIGAnimation/CAMDM/releases) to download the runnable program.
+
+<p align="center">
+  <img src="https://github.com/AIGAnimation/CAMDM/assets/7709951/0f2e9940-9920-4e49-8ae3-ce2b6c9c1726"/>
+</p>
 
 ### Usage
 
@@ -50,21 +53,21 @@ L:     Previous style
 
 ## Train from Scratch
 
-Our project contains two main modules: network training part with [PyTorch](!https://github.com/AIGAnimation/CAMDM/PyTorch/), and demo with [Unity](!https://github.com/AIGAnimation/CAMDM/Unity/). Both modules are open-sourced and can be accessed in this repository.
+Our project contains two main modules: network training part with [PyTorch](https://github.com/AIGAnimation/CAMDM/PyTorch/), and demo with [Unity](https://github.com/AIGAnimation/CAMDM/Unity/). Both modules are open-sourced and can be accessed in this repository.
 
 ### Character and Motion Preparation
 
-To train a character animation system, you first need a rigged character and its corresponding motion data. In our project, we provide an example with Y-Bot from [Mixamo](!https://www.mixamo.com/#/), which uses the standard Mixamo skeleton configuration. We also retargeted the 100STYLE dataset with the Mixamo skeleton. Therefore, you can download any other character from Mixamo and drive it with our trained model.
+To train a character animation system, you first need a rigged character and its corresponding motion data. In our project, we provide an example with Y-Bot from [Mixamo](https://www.mixamo.com/#/), which uses the standard Mixamo skeleton configuration. We also retargeted the 100STYLE dataset with the Mixamo skeleton. Therefore, you can download any other character from Mixamo and drive it with our trained model.
 
 For customized character and motion data, please wait for our further documentation to explain the retargeting and rigging process.
 
-### Diffusion Network Training [[PyTorch]](!https://github.com/AIGAnimation/CAMDM/PyTorch/) 
+### Diffusion Network Training [[PyTorch]](https://github.com/AIGAnimation/CAMDM/PyTorch/) 
 
 All the training code and documents can be found in the subfolder of our repository.
 
 A practical training session using the entire 100STYLE dataset will take approximately one day, although acceptable checkpoints can usually be obtained after just a few hours (more than 4 hours). Following the completion of the network training, it's necessary to convert the saved checkpoints into the ONNX format. This allows them to be imported into Unity for use as a learning module. For more detals, please check the subfolder.
 
-### Unity Inference [[Unity]](!https://github.com/AIGAnimation/CAMDM/PyTorch/) 
+### Unity Inference [[Unity]](https://github.com/AIGAnimation/CAMDM/PyTorch/) 
 TBA.
 
 ## ToDo-List
