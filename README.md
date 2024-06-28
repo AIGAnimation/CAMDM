@@ -100,4 +100,4 @@ This project is inspired by the following works. We appreciate their contributio
 ```
 
 ## Copyright Information
-This project is only for research or education purposes, and not freely available for commercial use or redistribution.
+The unity code is released under the GPL-3 license, the rest of the source code is released under the Apache License Version 2.0
