@@ -30,6 +30,8 @@
   - Release the Windows Unity demo (GPU) trained in 100STYLE dataset.
 - (2024.06.23)
   - Release the training code in PyTorch.
+- (2024.07.05)
+  - Release the inference code in Unity
 
 ## Getting Started
 
@@ -49,6 +51,7 @@ F:     Switch between forward mode and orientation-fixed mode.
 QE:    Adjust the orientation in orientation-fixed mode.
 J:     Next style
 L:     Previous style
+Left Shift: Run
 ```
 
 ## Train from Scratch
@@ -74,8 +77,8 @@ TBA.
 
 - [X] Release Unity .exe demo. （2024.04.24）
 - [X] Release the training code in PyTorch. （2024.06.23）
-- [ ] Release the inference code in Unity. （will release before 06.26）
-- [ ] Release the evaluation code. （will release before 06.30）
+- [X] Release the inference code in Unity. （2024.07.05）
+- [ ] Release the evaluation code. （TBA）
 - [ ] Release the inference code to support any character control. (TBA)
 
 ## Acknowledgement
