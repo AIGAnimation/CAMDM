@@ -71,7 +71,7 @@ All the training codes and documents can be found in the subfolder of our reposi
 A practical training session using the entire 100STYLE dataset will take approximately one day, although acceptable checkpoints can usually be obtained after just a few hours (more than 4 hours). Following the completion of the network training, it's necessary to convert the saved checkpoints into the ONNX format. This allows them to be imported into Unity for use as a learning module. For more details, please check the subfolder.
 
 ### Unity Inference [[Unity]](https://github.com/AIGAnimation/CAMDM/tree/main/Unity) 
-We uses 3060 GPU in the paper
+We use 3060 GPU in the paper
 
 [Youtube tutortial](https://www.youtube.com/watch?v=nuyqpqT3F-A)
 
