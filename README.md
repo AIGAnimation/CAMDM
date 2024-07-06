@@ -73,7 +73,7 @@ A practical training session using the entire 100STYLE dataset will take approxi
 ### Unity Inference [[Unity]](https://github.com/AIGAnimation/CAMDM/tree/main/Unity) 
 We use 3060 GPU in the paper
 
-[Youtube tutortial](https://www.youtube.com/watch?v=nuyqpqT3F-A)
+[Youtube tutorial](https://www.youtube.com/watch?v=nuyqpqT3F-A)
 
 ## ToDo-List
 
