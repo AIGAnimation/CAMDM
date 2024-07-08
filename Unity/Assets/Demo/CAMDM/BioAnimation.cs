@@ -712,7 +712,6 @@ namespace CAMDM {
 			}
 			UltiDraw.End();
 		}
-
 		#if UNITY_EDITOR
 		[CustomEditor(typeof(BioAnimation))]
 		public class BioAnimation_Editor : Editor {
