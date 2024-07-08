@@ -13,7 +13,7 @@ using UnityEditor;
 
 namespace CAMDM {
 	[RequireComponent(typeof(Actor))]
-	public class BioAnimation_mingyi : MonoBehaviour
+	public class BioAnimation : MonoBehaviour
 	{
 		public ModelAsset modelPath;
 		public TextAsset modelConfig;
@@ -714,13 +714,13 @@ namespace CAMDM {
 		}
 
 		#if UNITY_EDITOR
-		[CustomEditor(typeof(BioAnimation_mingyi))]
-		public class BioAnimation_mingyi_Editor : Editor {
+		[CustomEditor(typeof(BioAnimation))]
+		public class BioAnimation_Editor : Editor {
 
-			public BioAnimation_mingyi Target;
+			public BioAnimation Target;
 
 			void Awake() {
-				Target = (BioAnimation_mingyi)target;
+				Target = (BioAnimation)target;
 			}
 
 			public override void OnInspectorGUI() {
