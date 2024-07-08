@@ -24,14 +24,12 @@
     <a href="https://youtu.be/J9L0fR_x5OA"><img alt="youtube views" title="Subscribe to my YouTube channel" src="https://img.shields.io/youtube/views/J9L0fR_x5OA?logo=youtube&labelColor=ce4630&style=for-the-badge"/></a>
   </p>
 
-## Update log
+## News
 
-- (2024.04.24)
-  - Release the Windows Unity demo (GPU) trained in 100STYLE dataset.
-- (2024.06.23)
-  - Release the training code in PyTorch.
-- (2024.07.05)
-  - Release the inference code in Unity
+- 📢 2024.04.24 Release the Windows Unity demo (GPU) trained in 100STYLE dataset.
+- 📢 2024.06.23 Release the training code in PyTorch.
+- 📢 2024.07.05 Release the inference code in Unity.
+- 📢 2024.07.05 Release the evaluation code with datas.
 
 ## Getting Started
 
@@ -71,16 +69,23 @@ All the training codes and documents can be found in the subfolder of our reposi
 A practical training session using the entire 100STYLE dataset will take approximately one day, although acceptable checkpoints can usually be obtained after just a few hours (more than 4 hours). Following the completion of the network training, it's necessary to convert the saved checkpoints into the ONNX format. This allows them to be imported into Unity for use as a learning module. For more details, please check the subfolder.
 
 ### Unity Inference [[Unity]](https://github.com/AIGAnimation/CAMDM/tree/main/Unity) 
-We use 3060 GPU in the paper
+Once you have obtained the ONNX file and its corresponding model configuration JSON files, you can import them into our Unity project and run your own demo. For a step-by-step tutorial, please visit our YouTube channel: [tutorial](https://www.youtube.com/watch?v=nuyqpqT3F-A).
 
-[Youtube tutorial](https://www.youtube.com/watch?v=nuyqpqT3F-A)
+<p align="center">
+<img src="https://github.com/AIGAnimation/CAMDM/assets/7709951/96dbff50-0b07-4fd4-aaf6-49a3272be170" width="300">
+</p>
+
+In original paper, we used a 3060 GPU for inference, achieving performance of over 60 frames per second with the default settings. For more detailed information about the parameters, please refer to the [paper](https://arxiv.org/abs/2404.15121).
+
+#### Evaluation
+We record all the motion results for different methods with a same control presets. You can access the data and metrics in the [evaluation](https://github.com/AIGAnimation/CAMDM/tree/main/Evaluation) folder.
 
 ## ToDo-List
 
 - [X] Release Unity .exe demo. （2024.04.24）
 - [X] Release the training code in PyTorch. （2024.06.23）
 - [X] Release the inference code in Unity. （2024.07.05）
-- [ ] Release the evaluation code. （TBA）
+- [X] Release the evaluation code. （TBA）
 - [ ] Release the inference code to support any character control. (TBA)
 
 ## Acknowledgement
