@@ -69,8 +69,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     if args.cluster:
-        args.data = '/apdcephfs/share_1330077/myishi/dataset/100STYLE_mixamo/pkls/' + args.data.split('/')[-1]
-        args.save = '/apdcephfs/share_1330077/myishi/checkpoints/genlocal'
+        # If the 'cluster' argument is provided, modify the 'data' and 'save' path to match your own cluster folder location
+        args.data = 'xxxxxxx/pkls/' + args.data.split('/')[-1]
+        args.save = 'xxxxx'
     
     if args.config:
         config = config_parse(args)

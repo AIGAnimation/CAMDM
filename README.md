@@ -30,6 +30,8 @@
   - Release the Windows Unity demo (GPU) trained in 100STYLE dataset.
 - (2024.06.23)
   - Release the training code in PyTorch.
+- (2024.07.05)
+  - Release the inference code in Unity
 
 ## Getting Started
 
@@ -49,6 +51,7 @@ F:     Switch between forward mode and orientation-fixed mode.
 QE:    Adjust the orientation in orientation-fixed mode.
 J:     Next style
 L:     Previous style
+Left Shift: Run
 ```
 
 ## Train from Scratch
@@ -68,14 +71,16 @@ All the training codes and documents can be found in the subfolder of our reposi
 A practical training session using the entire 100STYLE dataset will take approximately one day, although acceptable checkpoints can usually be obtained after just a few hours (more than 4 hours). Following the completion of the network training, it's necessary to convert the saved checkpoints into the ONNX format. This allows them to be imported into Unity for use as a learning module. For more details, please check the subfolder.
 
 ### Unity Inference [[Unity]](https://github.com/AIGAnimation/CAMDM/tree/main/Unity) 
-TBA.
+We use 3060 GPU in the paper
+
+[Youtube tutorial](https://www.youtube.com/watch?v=nuyqpqT3F-A)
 
 ## ToDo-List
 
 - [X] Release Unity .exe demo. （2024.04.24）
 - [X] Release the training code in PyTorch. （2024.06.23）
-- [ ] Release the inference code in Unity. （will release before 06.26）
-- [ ] Release the evaluation code. （will release before 06.30）
+- [X] Release the inference code in Unity. （2024.07.05）
+- [ ] Release the evaluation code. （TBA）
 - [ ] Release the inference code to support any character control. (TBA)
 
 ## Acknowledgement
@@ -100,4 +105,4 @@ This project is inspired by the following works. We appreciate their contributio
 ```
 
 ## Copyright Information
-This project is only for research or education purposes, and not freely available for commercial use or redistribution.
+The unity code is released under the GPL-3 license, the rest of the source code is released under the Apache License Version 2.0

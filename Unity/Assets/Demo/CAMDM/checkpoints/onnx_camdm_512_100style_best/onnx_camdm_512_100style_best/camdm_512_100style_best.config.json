@@ -1,0 +1,51 @@
+{
+    "past_points": 10,
+    "future_points": 45,
+    "joint_num": 25,
+    "diffusion_steps": 4,
+    "posterior_log_variance_clipped": [
+        -2.071256870685799,
+        -2.071256870685799,
+        -0.8706174816294102,
+        -0.1566590478157038
+    ],
+    "posterior_mean_coef1": [
+        1.0,
+        0.7581453650171408,
+        0.5813070657844015,
+        0.3795065969236123
+    ],
+    "posterior_mean_coef2": [
+        0.0,
+        0.23079269376841863,
+        0.31970212256219915,
+        0.02706439677550703
+    ],
+    "joint_names": [
+        "mixamorig:Hips",
+        "mixamorig:Spine",
+        "mixamorig:Spine1",
+        "mixamorig:Spine2",
+        "mixamorig:Neck",
+        "mixamorig:Head",
+        "mixamorig:HeadTop_End",
+        "mixamorig:LeftShoulder",
+        "mixamorig:LeftArm",
+        "mixamorig:LeftForeArm",
+        "mixamorig:LeftHand",
+        "mixamorig:RightShoulder",
+        "mixamorig:RightArm",
+        "mixamorig:RightForeArm",
+        "mixamorig:RightHand",
+        "mixamorig:RightUpLeg",
+        "mixamorig:RightLeg",
+        "mixamorig:RightFoot",
+        "mixamorig:RightToeBase",
+        "mixamorig:RightToe_End",
+        "mixamorig:LeftUpLeg",
+        "mixamorig:LeftLeg",
+        "mixamorig:LeftFoot",
+        "mixamorig:LeftToeBase",
+        "mixamorig:LeftToe_End"
+    ]
+}
