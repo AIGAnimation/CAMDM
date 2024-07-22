@@ -22,7 +22,7 @@ conda activate cdmdm
 
 ### 2. Data Download
 
-Download the retargeted 100style dataset using this [OneDrive link](https://1drv.ms/u/s!AtagzSrg3_hppdhGhO7hO6SfJx20LA?e=VGOE5E), and then move it into the `data` folder of this project:
+Download the retargeted 100style dataset using this [OneDrive link](https://1drv.ms/u/s!AtagzSrg3_hppdhGhO7hO6SfJx20LA?e=VGOE5E) or [BaiduDisk](https://pan.baidu.com/s/1jwymYGZ40DAryDz1kIDgXg?pwd=gwj6), and then move it into the `data` folder of this project:
 
 ```shell
 mv 100STYLE_mixamo.zip ./data

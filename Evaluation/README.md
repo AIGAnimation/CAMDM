@@ -2,7 +2,7 @@
 
 ## Data and pre-trained encoders
 
-We prepare all the comparison data with this [Onedrive](https://1drv.ms/u/s!AtagzSrg3_hppdxIvlkNf35Jxf-PBw?e=6cJV5H) link. You can download it and prepare this folder with following structure:
+We prepare all the comparison data with this [Onedrive](https://1drv.ms/u/s!AtagzSrg3_hppdxIvlkNf35Jxf-PBw?e=6cJV5H) or [BaiduDisk](https://pan.baidu.com/s/1Tvc93P_OLyrntQyHJVHorw?pwd=62pf) link. You can download it and prepare this folder with following structure:
 
 ```
 data\
