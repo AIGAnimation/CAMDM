@@ -29,13 +29,15 @@ class MotionDiffusion(nn.Module):
         self.activation = activation
         self.cond_mask_prob = cond_mask_prob
         self.arch = arch
-        
+
+        # local conditions
         self.future_motion_process = MotionProcess(self.input_feats, self.latent_dim)
         self.past_motion_process = MotionProcess(self.input_feats, self.latent_dim)
         self.traj_trans_process = TrajProcess(2, self.latent_dim)
         self.traj_pose_process = TrajProcess(6, self.latent_dim)
-        self.style_feature_process = nn.Linear(512, self.latent_dim)
         self.sequence_pos_encoder = PositionalEncoding(self.latent_dim, self.dropout)
+
+        # global conditions
         self.embed_style = EmbedStyle(nstyles, self.latent_dim)
         self.embed_timestep = TimestepEmbedder(self.latent_dim, self.sequence_pos_encoder)
 
