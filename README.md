@@ -58,7 +58,7 @@ Our project contains two main modules: Network training part with [PyTorch](http
 
 ### Character and Motion Preparation
 
-To train a character animation system, you first need a rigged character and its corresponding motion data. In our project, we provide an example with Y-Bot from [Mixamo](https://www.mixamo.com/#/), which uses the standard Mixamo skeleton configuration. We also retargeted the 100STYLE dataset with the Mixamo skeleton. Therefore, you can download any other character from Mixamo and drive it with our trained model.
+To train a character animation system, you first need a rigged character and its corresponding motion data. In our project, we provide an example with Y-Bot from [Mixamo](https://www.mixamo.com/#/), which uses the standard Mixamo skeleton configuration. We also retargeted the 100STYLE dataset with the Mixamo skeleton by using [ARP-Batch-Retargeting](https://github.com/Shimingyi/ARP-Batch-Retargeting). Therefore, you can download any other character from Mixamo and drive it with our trained model.
 
 For customized character and motion data, please wait for our further documentation to explain the retargeting and rigging process.
 
