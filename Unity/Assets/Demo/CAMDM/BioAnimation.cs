@@ -27,10 +27,12 @@ namespace CAMDM {
 
 		private string[] styleList;
 		private int CurrentStyleIdx;
+		private int CurrentFrameIdx;
 		
 		private bool forward = true;//the mode of the orientation 
 
 		public bool Inspect = false;
+		public bool InspectEval = false;
 		public bool ShowInformation = true; // waring: May cause memory leaks if ture
 		public bool ShowTrajectory = true;
 		public bool Show_hand_trajectory=false;
@@ -48,6 +50,20 @@ namespace CAMDM {
 		private Actor Actor;
 		// public BVHExporter BVHExporter; //保存实时推理时的运动数据为bvh格式，方便在blender软件中的观看和指标评估
 		public InertiaAlgorithm InertiaAlgorithm;
+		
+		// For evaluation
+		public bool LoadControl = false;
+		public TextAsset LoadControlPath;
+		public bool ExportBVH = false;
+		public TextAsset ExportBVHHeader;
+		public string ExportBVHFolder;
+		private StreamWriter ExportWriter;
+		private string resetContent;
+		private List<Vector3> loadMoves = new List<Vector3>();
+		private List<Vector3> loadTargetDirections = new List<Vector3>();
+		private Vector3 start_position;
+		
+		// Runtime data
 		private Trajectory Trajectory;
 		private Trajectory Trajectory_right_hand;
 		private Trajectory Trajectory_root;
@@ -194,6 +210,36 @@ namespace CAMDM {
 				States[i].PreviousLocalRotation = Actor.Bones[i].Transform.localRotation;
 				States[i].CurrentLocalRotation = Actor.Bones[i].Transform.localRotation;
 			}
+			
+			// For evaluation
+			if (ExportBVH && ExportBVHHeader != null && !string.IsNullOrEmpty(ExportBVHFolder))
+			{
+				resetContent = ExportBVHHeader.text;
+			}
+			
+			if (LoadControl && LoadControlPath != null)
+			{
+				forward = false;
+				// load the text from load control path
+				string controlContent = LoadControlPath.text;
+				foreach (string line in controlContent.Split('\n'))
+				{
+					string[] components = line.Split(new string[] { ", " }, System.StringSplitOptions.None);
+					if (components.Length == 6)
+					{
+						float moveX = float.Parse(components[0]);
+						float moveY = float.Parse(components[1]);
+						float moveZ = float.Parse(components[2]);
+						float targetX = float.Parse(components[3]);
+						float targetY = float.Parse(components[4]);
+						float targetZ = float.Parse(components[5]);
+
+						loadMoves.Add(new Vector3(moveX, moveY, moveZ));
+						loadTargetDirections.Add(new Vector3(targetX, targetY, targetZ));
+					}
+				}
+			}
+			
 		}
 		
 		void Start() {
@@ -282,15 +328,51 @@ namespace CAMDM {
 			applyframes = applyframes_cache;
 		}
 
-		void FixedUpdate() {
+		void FixedUpdate()
+		{
+			CheckStatus();
 			PredictTrajectory();
 			Animate();
+		}
+		
+		void CheckStatus()
+		{
+			if (LoadControl && (CurrentFrameIdx >= loadMoves.Count))
+			{
+				CurrentFrameIdx = 0;
+				
+				if (CurrentStyleIdx >= styleList.Length)
+				{
+					OnExitGame();
+				}
+			}
+			
+			if (ExportBVH)
+			{
+				if (CurrentFrameIdx == 0)
+				{
+					if (ExportWriter != null)
+					{
+						ExportWriter.Close();
+					}
+					
+					ExportWriter = new StreamWriter(ExportBVHFolder + "/motion_eval_" + styleList[CurrentStyleIdx] + ".bvh");
+					ExportWriter.Write(resetContent + "\nMOTION\nFrames: 20\nFrame Time: 0.0333333333333333\n");
+					start_position = Actor.Bones[PelvisIndex].Transform.position;
+				}
+			}
 		}
 		
 		private void PredictTrajectory() {
 			
 			float turn = Controller.QueryTurn();
 			Vector3 move = Controller.QueryMove();
+			
+			if (LoadControl)
+			{
+				move = loadMoves[CurrentFrameIdx];
+				TargetDirection = loadTargetDirections[CurrentFrameIdx];
+			}
 			
 			control = turn != 0f || move != Vector3.zero;
 			speed = Utility.Interpolate(speed, (Trajectory.Points[RootPointIndex].GetPosition()-Trajectory.Points[RootPointIndex-1].GetPosition()).magnitude / Time.fixedDeltaTime,control?0.05f:0.5f); // (3060GPU) Note!!!! if the applied frames<=3, the caculation of the speed will be wrong because of the frequent inference of diffusion model, leading to drift when standing.
@@ -614,12 +696,54 @@ namespace CAMDM {
 				past_motion[0, PelvisIndex, 2, i-(RootPointIndex-PastPoints+1)] = (Trajectory.Points[i].GetPosition().z - base_trans.z);
 			}
 
+			if (ExportBVH)
+			{
+				saveMotion();
+			}
+			
 			frame++;
+			CurrentFrameIdx++;
 			if(frame>(applyframes-1))
 			{
 				frame=0;
 			}
+			
+		}
+		
+		private void saveMotion()
+		{
+			Quaternion q = new Quaternion();
+			Vector3 eulerAngles;
+			Quaternion xRotation;
+			Quaternion yRotation;
+			Quaternion zRotation;
+			Quaternion zyxRotation;
+			Vector3 zyxEulerAngles;
+			for(int i=0; i<Actor.Bones.Length-1; i++) 
+			{
+				q = Actor.Bones[i].Transform.localRotation;
+				q.y =-q.y;
+				q.z = -q.z;
+				eulerAngles = q.eulerAngles;
 
+				xRotation = Quaternion.Euler(eulerAngles.x, 0, 0);
+				yRotation = Quaternion.Euler(0, eulerAngles.y, 0);
+				zRotation = Quaternion.Euler(0, 0, eulerAngles.z);
+			    
+				zyxRotation = yRotation * xRotation * zRotation;
+				zyxEulerAngles = zyxRotation.eulerAngles;
+				if (i == 0)
+				{
+					float x = -(Actor.Bones[i].Transform.position.x - start_position.x);
+					float z = (Actor.Bones[i].Transform.position.z - start_position.z);
+					ExportWriter.Write("{0} {1} {2} {3} {4} {5} ", x*100, Actor.Bones[i].Transform.position.y*100, z*100, zyxEulerAngles.y, zyxEulerAngles.x, zyxEulerAngles.z );   
+				}
+				else
+				{
+					ExportWriter.Write("{0} {1} {2} ", zyxEulerAngles.y, zyxEulerAngles.x, zyxEulerAngles.z);
+				}
+			}
+			ExportWriter.WriteLine();
 		}
 		
 		private Quaternion MatrixToQuaternion(Matrix4x4 m) //pytroch训练数据是opengl 右手坐标系，但是unity是左手坐标系，所以得对网络预测出来的四元数进行坐标系转换
@@ -768,9 +892,23 @@ namespace CAMDM {
 							Target.bias_HFTE = EditorGUILayout.Slider("bias_HFTE", Target.bias_HFTE, 0.1f, 3.0f);
 							Target.HFTE = EditorGUILayout.Toggle("HFTE", Target.HFTE);
 							Target.Max_angle =EditorGUILayout.Slider("Max_angle", Target.Max_angle, 100f, 179f);
-							
 						}
 					}
+
+					if(Utility.GUIButton("Evaluation", UltiDraw.DarkGrey, UltiDraw.White)) {
+						Target.InspectEval = !Target.InspectEval;
+					}
+
+					if(Target.InspectEval) {
+						using(new EditorGUILayout.VerticalScope ("Box")) {
+							Target.LoadControl = EditorGUILayout.Toggle("Load Control", Target.LoadControl);
+							Target.LoadControlPath = (TextAsset)EditorGUILayout.ObjectField("Load Control Path", Target.LoadControlPath, typeof(TextAsset), false);
+							Target.ExportBVH = EditorGUILayout.Toggle("Export BVH", Target.ExportBVH);
+							Target.ExportBVHHeader = (TextAsset)EditorGUILayout.ObjectField("Export BVH Header", Target.ExportBVHHeader, typeof(TextAsset), false);
+							Target.ExportBVHFolder = EditorGUILayout.TextField("Export BVH Folder", Target.ExportBVHFolder);	
+						}
+					}
+
 				}
 			}
 		}
@@ -783,17 +921,25 @@ namespace CAMDM {
 			traj_pose.Dispose();
 			traj_trans.Dispose();
 			output.Dispose();
-			// BVHExporter.Save(Frames, Actor);
+			if (ExportWriter != null)
+			{
+				ExportWriter.Close();
+			}
 		}
 		
 		void OnDisable()
 		{
-			// writer.Close();
-			// saveWriter.Close();
-			// loadReader.Close();
+			if (ExportWriter != null)
+			{
+				ExportWriter.Close();
+			}
 		}
 		public void OnExitGame()//退出程序
 		{
+			if (ExportWriter != null)
+			{
+				ExportWriter.Close();
+			}
 			#if UNITY_EDITOR
 					UnityEditor.EditorApplication.isPlaying = false;//在unity编译器中，退出运行状态
 			#else

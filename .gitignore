@@ -1,0 +1,79 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Thumbnails
+Thumbs.db
+Icon?
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Mm]emoryCaptures/
+[Mm]etadata/
+[Uu]serSettings/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.suo
+*.userprefs
+*.unityproj
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.ilk
+*.scc
+*.tmp
+*.bak
+*.swp
+*.sublime-workspace
+*.sublime-project
+# Unity Asset Store
+Assets/AssetStoreTools*
+# Unity Cache
+Library/AssetStore*
+# Visual Studio Code
+.vscode/
+.vscode/*
+*.code-workspace
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+*.whl
+*.env
+*.venv
+*.pytest_cache/
+*.coverage
+*.coverage.*
+*.mypy_cache/
+instance/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.log
+*.pot
+*.pyc
+# Jupyter Notebook
+.ipynb_checkpoints
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+# Other files to ignore
+*.tmp
+*.log
+*.bak
+*.swp
