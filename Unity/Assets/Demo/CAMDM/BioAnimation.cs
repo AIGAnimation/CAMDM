@@ -48,7 +48,6 @@ namespace CAMDM {
 
 		public Controller Controller;
 		private Actor Actor;
-		// public BVHExporter BVHExporter; //保存实时推理时的运动数据为bvh格式，方便在blender软件中的观看和指标评估
 		public InertiaAlgorithm InertiaAlgorithm;
 		
 		// For evaluation
@@ -339,6 +338,7 @@ namespace CAMDM {
 		{
 			if (LoadControl && (CurrentFrameIdx >= loadMoves.Count))
 			{
+				CurrentStyleIdx++;
 				CurrentFrameIdx = 0;
 				
 				if (CurrentStyleIdx >= styleList.Length)

@@ -2,18 +2,20 @@
 
 ## Fair comparison settings
 
-Our system consists of two modules: AR model training in PyTorch and the runtime part in Unity. It would not be fair if we simply output the motion using Python without all the runtime strategies. However, re-implementing all these features in Python is non-trivial.
+Our system consists of two modules: AR model training in PyTorch and the runtime part in Unity. It would not be fair if we simply output the motion using Python without the runtime strategies. However, re-implementing all these features in Python is non-trivial.
 Hence, we provide the following features in Unity to make a fair comparison:
 1. Load predefined control signals for all styles.
 2. Export the generated motion data in Unity runtime.
 
-You can check the latest commit in the repo, it should contain the following feature in the Unity inspector:
+You can check the the main Unity inspector, which should contain the following feature in the 'Evaluation' component:
 
 If the 'Load Control' is checked, the control signals will be loaded from the predefined file in the 'Load Control Path'. If the 'Export Motion' is checked, the motion data will be exported to the 'Export BVH Path' in BVH format after the motion generation.
 
 WARNING: The current version of BVH header is only compatible with our character model. If you want to use it with other characters, you need to modify the BVH header manually by simply copying the hierarchy part from the original BVH file.
 
-![Image](https://github.com/user-attachments/assets/0ab8cf2e-b4e6-4053-bdab-3466f2f574dc)
+<p align="center">
+<img src="https://github.com/user-attachments/assets/0ab8cf2e-b4e6-4053-bdab-3466f2f574dc" width="400">
+</p>
 
 
 ## Data and pre-trained encoders
