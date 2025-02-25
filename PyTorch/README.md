@@ -17,7 +17,7 @@ Create and activate the conda environment using the provided `environment.yml` f
 git clone https://github.com/AIGAnimation/CAMDM.git
 cd CAMDM/PyTorch
 conda env create -f environment.yml
-conda activate cdmdm
+conda activate camdm
 ```
 
 ### 2. Data Download
