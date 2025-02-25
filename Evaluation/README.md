@@ -14,7 +14,7 @@ If the 'Load Control' is checked, the control signals will be loaded from the pr
 WARNING: The current version of BVH header is only compatible with our character model. If you want to use it with other characters, you need to modify the BVH header manually by simply copying the hierarchy part from the original BVH file.
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/0ab8cf2e-b4e6-4053-bdab-3466f2f574dc" width="400">
+<img src="https://github.com/user-attachments/assets/cd595cbe-4e25-46a2-abec-d5255329cb09" width="400">
 </p>
 
 
