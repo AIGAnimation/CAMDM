@@ -10,6 +10,14 @@ using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEditor;
 
 namespace CAMDM {
 	[RequireComponent(typeof(Actor))]
@@ -54,7 +62,6 @@ namespace CAMDM {
 		public bool LoadControl = false;
 		public TextAsset LoadControlPath;
 		public bool ExportBVH = false;
-		public TextAsset ExportBVHHeader;
 		public string ExportBVHFolder;
 		private StreamWriter ExportWriter;
 		private string resetContent;
@@ -210,11 +217,7 @@ namespace CAMDM {
 				States[i].CurrentLocalRotation = Actor.Bones[i].Transform.localRotation;
 			}
 			
-			// For evaluation
-			if (ExportBVH && ExportBVHHeader != null && !string.IsNullOrEmpty(ExportBVHFolder))
-			{
-				resetContent = ExportBVHHeader.text;
-			}
+			resetContent = createSkeleton();
 			
 			if (LoadControl && LoadControlPath != null)
 			{
@@ -357,7 +360,7 @@ namespace CAMDM {
 					}
 					
 					ExportWriter = new StreamWriter(ExportBVHFolder + "/motion_eval_" + styleList[CurrentStyleIdx] + ".bvh");
-					ExportWriter.Write(resetContent + "\nMOTION\nFrames: 20\nFrame Time: 0.0333333333333333\n");
+					ExportWriter.Write(resetContent + "\nMOTION\nFrames: " + loadMoves.Count + "\nFrame Time: 0.033333\n");
 					start_position = Actor.Bones[PelvisIndex].Transform.position;
 				}
 			}
@@ -709,40 +712,119 @@ namespace CAMDM {
 			}
 			
 		}
+
+		// From: http://bediyap.com/programming/convert-quaternion-to-euler-rotations/
+		Vector3 manualEuler(float a, float b, float c, float d, float e) {
+			Vector3 euler = new Vector3();
+			euler.z = Mathf.Atan2(a, b) * Mathf.Rad2Deg; // Z
+			euler.x = Mathf.Asin(Mathf.Clamp(c, -1f, 1f)) * Mathf.Rad2Deg;     // Y
+			euler.y = Mathf.Atan2(d, e) * Mathf.Rad2Deg; // X
+			return euler;
+		}
+		
+		// Unity to BVH
+		Vector3 eulerZXY(Vector4 q) {
+			return manualEuler(-2 * (q.x * q.y - q.w * q.z),
+				q.w * q.w - q.x * q.x + q.y * q.y - q.z * q.z,
+				2 * (q.y * q.z + q.w * q.x),
+				-2 * (q.x * q.z - q.w * q.y),
+				q.w * q.w - q.x * q.x - q.y * q.y + q.z * q.z); // ZXY
+		}
+		
+		private string getRotation(Quaternion rot) {
+			Vector4 rot2 = new Vector4(rot.x, -rot.y, -rot.z, rot.w).normalized;
+			Vector3 angles = eulerZXY(rot2);
+			// This does convert to XZY order, but it should be ZXY?
+			return string.Format(CultureInfo.InvariantCulture, "{0: 0.000000;-0.000000}\t{1: 0.000000;-0.000000}\t{2: 0.000000;-0.000000}", wrapAngle(angles.z), wrapAngle(angles.x), wrapAngle(angles.y));
+		}
+		
+		private float wrapAngle(float a) {
+			if (a > 180f) {
+				return a - 360f;
+			}
+			if (a < -180f) {
+				return 360f + a;
+			}
+			return a;
+		}
+		
+		private static string tabs(int n) {
+			string tabs = "";
+			for (int i = 0; i < n; i++) {
+				tabs += "\t";
+			}
+			return tabs;
+		}
+		
+		private string getOffset(Vector3 offset) {
+			Vector3 offset2 = new Vector3(-offset.x, offset.y, offset.z);
+			return string.Format(CultureInfo.InvariantCulture, "{0: 0.000000;-0.000000}\t{1: 0.000000;-0.000000}\t{2: 0.000000;-0.000000}", offset2.x, offset2.y, offset2.z);
+		}
+		
+		private string genJoint(int level, int boneId)
+		{
+			var bone = Actor.Bones[boneId];
+			Quaternion rot = bone.Transform.localRotation;
+			bone.Transform.localRotation = Quaternion.identity;
+
+			Vector3 offset = bone.Transform.position - bone.GetParent().Transform.position;
+			string result = tabs(level) + "JOINT " + bone.Transform.name + "\n" + tabs(level) + "{\n" + tabs(level) + "\tOFFSET\t" + getOffset(offset) + "\n" + tabs(level) + "\tCHANNELS 3 Zrotation Xrotation Yrotation\n";
+
+			if (bone.Childs.Length > 0) {
+				foreach (var childId in bone.Childs) {
+					result += genJoint(level + 1, childId);
+				}
+			} else {
+				// I don't really know what to put here. UniVRM's importer ignores this node type anyway. Blender doesn't and uses it for the bone tails.
+				// If you wanna export the END site, uncomment the first following lines.
+				// result += tabs(level + 1) + "End Site\n" + tabs(level + 1) + "{\n" + tabs(level + 1) + "\tOFFSET\t" + getOffset(bone.Transform.position - bone.GetParent().Transform.position) + "\n" + tabs(level + 1) + "}\n";
+				result += tabs(level + 1) + "End Site\n" + tabs(level + 1) + "{\n" + tabs(level + 1) + "\tOFFSET\t 0\t0\t0 \n" + tabs(level + 1) + "}\n";
+			}
+
+			result += tabs(level) + "}\n";
+			bone.Transform.localRotation = rot;
+
+			return result;
+		}
+		
+		private string createSkeleton()
+		{
+			// create skeleton information from Actor
+			string result = "";
+
+			var rootBone = Actor.Bones[0];
+			Quaternion rot = rootBone.Transform.rotation;
+			rootBone.Transform.rotation = Quaternion.identity;
+			result = result + "HIERARCHY\nROOT " + Actor.Bones[0].Transform.name + "\n{\n\tOFFSET\t0.00\t0.00\t0.00\n\tCHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation\n";
+
+			foreach (var childId in Actor.Bones[0].Childs)
+			{
+				result += genJoint(1, childId);
+			}
+
+			result += "}\n";
+			rootBone.Transform.rotation = rot;
+			
+			return result;
+		}
+		
+		private string createRotationString(int boneId)
+		{
+			var bone = Actor.Bones[boneId];
+			string result = "";
+			if (boneId == 0)
+				result += "\t" + getRotation(bone.Transform.rotation);
+			else
+				result += "\t" + getRotation(bone.Transform.localRotation);
+			foreach (var childId in Actor.Bones[boneId].Childs)
+				result += createRotationString(childId);
+			return result;
+		}
 		
 		private void saveMotion()
 		{
-			Quaternion q = new Quaternion();
-			Vector3 eulerAngles;
-			Quaternion xRotation;
-			Quaternion yRotation;
-			Quaternion zRotation;
-			Quaternion zyxRotation;
-			Vector3 zyxEulerAngles;
-			for(int i=0; i<Actor.Bones.Length-1; i++) 
-			{
-				q = Actor.Bones[i].Transform.localRotation;
-				q.y =-q.y;
-				q.z = -q.z;
-				eulerAngles = q.eulerAngles;
-
-				xRotation = Quaternion.Euler(eulerAngles.x, 0, 0);
-				yRotation = Quaternion.Euler(0, eulerAngles.y, 0);
-				zRotation = Quaternion.Euler(0, 0, eulerAngles.z);
-			    
-				zyxRotation = yRotation * xRotation * zRotation;
-				zyxEulerAngles = zyxRotation.eulerAngles;
-				if (i == 0)
-				{
-					float x = -(Actor.Bones[i].Transform.position.x - start_position.x);
-					float z = (Actor.Bones[i].Transform.position.z - start_position.z);
-					ExportWriter.Write("{0} {1} {2} {3} {4} {5} ", x*100, Actor.Bones[i].Transform.position.y*100, z*100, zyxEulerAngles.y, zyxEulerAngles.x, zyxEulerAngles.z );   
-				}
-				else
-				{
-					ExportWriter.Write("{0} {1} {2} ", zyxEulerAngles.y, zyxEulerAngles.x, zyxEulerAngles.z);
-				}
-			}
+			ExportWriter.Write(getOffset(Actor.Bones[0].Transform.position));
+			ExportWriter.Write(createRotationString(0));
 			ExportWriter.WriteLine();
 		}
 		
@@ -904,7 +986,6 @@ namespace CAMDM {
 							Target.LoadControl = EditorGUILayout.Toggle("Load Control", Target.LoadControl);
 							Target.LoadControlPath = (TextAsset)EditorGUILayout.ObjectField("Load Control Path", Target.LoadControlPath, typeof(TextAsset), false);
 							Target.ExportBVH = EditorGUILayout.Toggle("Export BVH", Target.ExportBVH);
-							Target.ExportBVHHeader = (TextAsset)EditorGUILayout.ObjectField("Export BVH Header", Target.ExportBVHHeader, typeof(TextAsset), false);
 							Target.ExportBVHFolder = EditorGUILayout.TextField("Export BVH Folder", Target.ExportBVHFolder);	
 						}
 					}
