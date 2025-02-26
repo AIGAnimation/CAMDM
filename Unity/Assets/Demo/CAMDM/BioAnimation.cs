@@ -251,7 +251,14 @@ namespace CAMDM {
 
 		private void Update()
 		{
-			Target_speed = WalkTarget_speed;
+			if (LoadControl)
+			{
+				Target_speed = SprintTarget_speed;
+			}
+			else
+			{
+				Target_speed = WalkTarget_speed;
+			}
 			if (Input.GetKey(KeyCode.LeftShift))
 			{
 				Target_speed = SprintTarget_speed;
@@ -756,9 +763,9 @@ namespace CAMDM {
 			return tabs;
 		}
 		
-		private string getOffset(Vector3 offset) {
+		private string getOffset(Vector3 offset, float scale = 100f) {
 			Vector3 offset2 = new Vector3(-offset.x, offset.y, offset.z);
-			return string.Format(CultureInfo.InvariantCulture, "{0: 0.000000;-0.000000}\t{1: 0.000000;-0.000000}\t{2: 0.000000;-0.000000}", offset2.x, offset2.y, offset2.z);
+			return string.Format(CultureInfo.InvariantCulture, "{0: 0.000000;-0.000000}\t{1: 0.000000;-0.000000}\t{2: 0.000000;-0.000000}", offset2.x * scale, offset2.y * scale, offset2.z * scale);
 		}
 		
 		private string genJoint(int level, int boneId)
@@ -823,7 +830,9 @@ namespace CAMDM {
 		
 		private void saveMotion()
 		{
-			ExportWriter.Write(getOffset(Actor.Bones[0].Transform.position));
+			Vector3 root_position = Actor.Bones[0].Transform.position;
+			root_position -= start_position;
+			ExportWriter.Write(getOffset(root_position));
 			ExportWriter.Write(createRotationString(0));
 			ExportWriter.WriteLine();
 		}
