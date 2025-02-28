@@ -94,8 +94,8 @@ if __name__ == '__main__':
     
     for bvh_path in tqdm(bvh_files):
         
-        style_name = os.path.basename(bvh_path).replace('.bvh', '').split('')[0]
-        action_label = os.path.basename(bvh_path).replace('.bvh', '').split('')[-1]
+        style_name = os.path.basename(bvh_path).replace('.bvh', '').split('_')[0]
+        action_label = os.path.basename(bvh_path).replace('.bvh', '').split('_')[-1]
         
         if style_name not in style_metas.keys():
             continue
