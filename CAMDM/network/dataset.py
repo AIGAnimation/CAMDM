@@ -6,7 +6,7 @@ import pickle
 import random
 import numpy as np
 
-import utils.nn_transforms as nn_transforms
+import CAMDM.utils.nn_transforms as nn_transforms
 from scipy.ndimage import gaussian_filter1d
 
 from scipy.spatial.transform import Rotation as R

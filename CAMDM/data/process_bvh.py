@@ -9,7 +9,7 @@ import sys
 sys.path.append('./')
 
 import os
-import utils.motion_modules as motion_modules
+import CAMDM.utils.motion_modules as motion_modules
 import style_helper as style100
 
 from multiprocessing import Pool

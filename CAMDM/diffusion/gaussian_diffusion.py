@@ -13,10 +13,10 @@ import numpy as np
 import torch
 import torch as th
 from copy import deepcopy
-from diffusion.nn import mean_flat, sum_flat
-from diffusion.losses import normal_kl, discretized_gaussian_log_likelihood
+from CAMDM.diffusion.nn import mean_flat, sum_flat
+from CAMDM.diffusion.losses import normal_kl, discretized_gaussian_log_likelihood
 
-from utils.nn_transforms import neural_FK
+from CAMDM.utils.nn_transforms import neural_FK
 
 def get_named_beta_schedule(schedule_name, num_diffusion_timesteps, scale_betas=1.):
     """

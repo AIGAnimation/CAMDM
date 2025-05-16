@@ -1,6 +1,6 @@
-import diffusion.gaussian_diffusion as gd
+import CAMDM.diffusion.gaussian_diffusion as gd
 
-from diffusion.respace import SpacedDiffusion, space_timesteps
+from CAMDM.diffusion.respace import SpacedDiffusion, space_timesteps
 
 def create_gaussian_diffusion(config):
     # default params

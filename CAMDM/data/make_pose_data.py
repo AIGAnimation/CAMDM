@@ -4,7 +4,7 @@ sys.path.append('./')
 import os
 import pickle
 import numpy as np
-import utils.motion_modules as motion_modules
+import CAMDM.utils.motion_modules as motion_modules
 import style_helper as style100
 from scipy.ndimage import gaussian_filter1d
 from tqdm import tqdm

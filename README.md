@@ -88,6 +88,12 @@ We record all the motion results for different methods with a same control prese
 - [X] Release the evaluation code. （TBA）
 - [ ] Release the inference code to support any character control. (TBA)
 
+### Installation
+You can install the package directly from GitHub using pip:
+```bash
+pip install git+https://github.com/AIGAnimation/CAMDM
+```
+
 ## Acknowledgement
 
 This project is inspired by the following works. We appreciate their contributions, and please consider citing them if you find our project helpful.
@@ -100,7 +106,7 @@ This project is inspired by the following works. We appreciate their contributio
 
 ## BibTex
 
-```
+```bib
 @inproceedings{camdm,
   title={Taming Diffusion Probabilistic Models for Character Control},
   author={Rui Chen and Mingyi Shi and Shaoli Huang and Ping Tan and Taku Komura and Xuelin Chen},

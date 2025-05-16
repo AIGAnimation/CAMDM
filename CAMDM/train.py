@@ -3,7 +3,7 @@ import time
 import torch
 import shutil
 import argparse
-import utils.common as common
+import CAMDM.utils.common as common
 
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
@@ -14,7 +14,7 @@ from network.models import MotionDiffusion
 from network.training import MotionTrainingPortal
 from network.dataset import MotionDataset
 
-from diffusion.create_diffusion import create_gaussian_diffusion
+from CAMDM.diffusion.create_diffusion import create_gaussian_diffusion
 from config.option import add_model_args, add_train_args, add_diffusion_args, config_parse
 
 def train(config, resume, logger, tb_writer):

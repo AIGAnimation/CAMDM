@@ -1,0 +1,63 @@
+[project]
+name = "camdm"
+description = "Conditional Action Motion Diffusion Model"
+version = "0.0.1"
+authors = []
+readme = "CAMDM/README.md"
+dependencies = [
+    "numpy>=1.24.3",
+    "torch>=1.13.1",
+    "torchvision>=0.14.1",
+    "torchaudio>=0.13.1",
+    "matplotlib",
+    "blobfile>=2.1.1",
+    "torch-ema>=0.3",
+    "onnx>=1.16.1",
+    "onnxruntime>=1.18.0",
+    "tensorboard>=2.14.0",
+    "tqdm>=4.66.4",
+    "pandas>=2.0.3",
+    "scipy>=1.10.1",
+    "pillow>=10.3.0",
+    "absl-py>=2.1.0",
+    "coloredlogs>=15.0.1",
+    "humanfriendly>=10.0",
+    "torch-tb-profiler"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pylint",
+    "yapf",
+]
+
+[tool.yapf]
+based_on_style = "google"
+column_limit = 120
+
+[tool.pylint]
+max-line-length = 120
+disable = [
+    "C0114", # Missing module docstring
+    "C0115", # Missing class docstring
+    "C0116", # Missing function or method docstring
+]
+
+[tool.setuptools]
+packages = [
+    "CAMDM",
+    "CAMDM.diffusion",
+    "CAMDM.data",
+    "CAMDM.config", 
+    "CAMDM.network",
+    "CAMDM.utils"
+]
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = []
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta" 

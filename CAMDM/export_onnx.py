@@ -4,13 +4,13 @@ import torch
 import argparse
 import numpy as np
 
-import utils.common as common
+import CAMDM.utils.common as common
 
 from network.models import MotionDiffusion
 from network.dataset import MotionDataset
 from config.option import add_model_args, add_diffusion_args
-from diffusion.resample import create_named_schedule_sampler
-from diffusion.create_diffusion import create_gaussian_diffusion
+from CAMDM.diffusion.resample import create_named_schedule_sampler
+from CAMDM.diffusion.create_diffusion import create_gaussian_diffusion
 
 import onnxruntime as ort
 import onnx

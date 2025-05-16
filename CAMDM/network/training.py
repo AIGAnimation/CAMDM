@@ -1,8 +1,8 @@
 import numpy as np
 import blobfile as bf
-import utils.common as common
+import CAMDM.utils.common as common
 from tqdm import tqdm
-import utils.nn_transforms as nn_transforms
+import CAMDM.utils.nn_transforms as nn_transforms
 import itertools
 
 import torch
@@ -10,8 +10,9 @@ from torch.optim import AdamW
 from torch.utils.data import Subset, DataLoader
 from torch_ema import ExponentialMovingAverage
 
-from diffusion.resample import create_named_schedule_sampler
-from diffusion.gaussian_diffusion import *
+from CAMDM.diffusion.resample import create_named_schedule_sampler
+from CAMDM.diffusion.gaussian_diffusion import *
+from CAMDM.utils.nn_transforms import neural_FK
 
 
 class BaseTrainingPortal:
@@ -58,7 +59,15 @@ class BaseTrainingPortal:
         raise NotImplementedError('evaluate_sampling function must be implemented')
     
         
-    def run_loop(self):
+    def run_loop(self, enable_profiler=False, profiler_directory='./logs/tb_profiler'):
+        if enable_profiler:
+            profiler = torch.profiler.profile(
+                    activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
+                    on_trace_ready=torch.profiler.tensorboard_trace_handler(profiler_directory))
+            profiler.start()
+        else:
+            profiler = None
+
         sampling_num = 16
         sampling_idx = np.random.randint(0, len(self.dataloader.dataset), sampling_num)
         sampling_subset = DataLoader(Subset(self.dataloader.dataset, sampling_idx), batch_size=sampling_num)
@@ -85,7 +94,9 @@ class BaseTrainingPortal:
                 total_loss = (losses["loss"] * weights).mean()
                 total_loss.backward()
                 self.opt.step()
-            
+                if profiler:
+                    profiler.step()
+
                 if self.config.trainer.ema:
                     self.ema.update()
                 
@@ -94,7 +105,12 @@ class BaseTrainingPortal:
                         if key_name not in epoch_losses.keys():
                             epoch_losses[key_name] = []
                         epoch_losses[key_name].append(losses[key_name].mean().item())
-            
+
+            # Stop profiling after one epoch
+            if profiler:
+                profiler.stop()
+                profiler = None
+
             if self.prior_loader is not None:
                 for prior_datas in itertools.islice(self.prior_loader, data_len):
                     prior_datas = {key: val.to(self.device) if torch.is_tensor(val) else val for key, val in prior_datas.items()}
@@ -143,7 +159,6 @@ class BaseTrainingPortal:
         best_path = '%s/best.pt' % (self.config.save)
         self.load_checkpoint(best_path)
         self.evaluate_sampling(sampling_subset, save_folder_name='best')
-
 
     def state_dict(self):
         model_state = self.model.state_dict()
