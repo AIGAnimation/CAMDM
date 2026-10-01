@@ -30,7 +30,9 @@
 - 📢 2024.06.23 Release the training code in PyTorch.
 - 📢 2024.07.05 Release the inference code in Unity.
 - 📢 2024.07.05 Release the evaluation code with datas.
+- 📢 2026.10.01 Check the latest character-aware control version [MotionPersona](https://github.com/AIGAnimation/MotionPersona) with faster inference and better quality
 
+  
 ## Getting Started
 
 Our project is developed with Unity, and features a real-time character control demo that generates high-quality and diverse character animations, responding in real-time to user-supplied control signals. With our character controller, you can control your character to move with any arbitrary style you want, all achieved through a single unified model.
